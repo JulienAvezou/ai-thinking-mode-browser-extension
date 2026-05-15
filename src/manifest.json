@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "ThinkingMode",
+  "version": "0.1.0",
+  "description": "Choose the right thinking mode before prompting AI.",
+  "permissions": ["sidePanel", "storage"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "assets/serviceWorker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "ThinkingMode"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["assets/contentScript.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
