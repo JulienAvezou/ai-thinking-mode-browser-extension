@@ -2,6 +2,8 @@
 
 ThinkingMode is a Manifest V3 Chrome extension MVP that helps developers choose a thinking mode before prompting AI. The open-source build runs locally on supported AI chat pages and does not read conversations, scrape page content, call an LLM API, transmit data, or collect analytics.
 
+<img width="3016" height="2558" alt="ThinkingMode" src="https://github.com/user-attachments/assets/8db97611-8555-410a-9b79-9f1032aea884" />
+
 ## Supported Pages
 
 - `https://chatgpt.com/*`
