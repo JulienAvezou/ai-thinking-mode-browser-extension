@@ -34,6 +34,8 @@ The AI usage log is a manual tracker for the mode you used after prompting. Mode
 
 The cognitive cost meter lives in browser `localStorage`. When the meter reaches its limit, ThinkingMode mirrors the active cooldown timestamp to Chrome local storage so supported chat pages can show a blocking overlay for 5 minutes. After the cooldown ends, the meter resets locally.
 
+<img width="1207" height="803" alt="Capture d’écran 2026-05-16 à 12 30 01" src="https://github.com/user-attachments/assets/a53fb214-ee8b-4c86-9de9-6d184cd6b191" />
+
 ## Privacy
 
 ThinkingMode only uses text you type into the side panel and the AI usage modes you manually log. The open-source build does not read AI conversations, scrape page content, automatically insert prompts, send data to a backend, or use analytics.
