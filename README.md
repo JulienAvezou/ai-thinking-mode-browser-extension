@@ -18,10 +18,23 @@ ThinkingMode is a Manifest V3 Chrome extension MVP that helps developers choose 
 - Recommends one of five deterministic thinking modes: Explore, Challenge, Decide, Audit, Reflect.
 - Generates a local prompt template for the selected mode.
 - Lets you manually copy the generated prompt.
+- Lets you manually log how you used AI after prompting.
+- Shows a cognitive cost meter that rises faster for riskier usage modes.
+- Temporarily blocks supported AI chat pages for 5 minutes when the meter fills.
+
+## AI Usage Log and Cognitive Cost
+
+The AI usage log is a manual tracker for the mode you used after prompting. Modes are grouped into Supportive, Mixed, and Risky categories:
+
+- Supportive modes help expand your thinking and carry a low cognitive cost.
+- Mixed modes save time but can compress understanding if used carelessly.
+- Risky modes are cases where AI may replace your judgment and carry a high cognitive cost.
+
+The cognitive cost meter lives in browser `localStorage`. When the meter reaches its limit, ThinkingMode mirrors the active cooldown timestamp to Chrome local storage so supported chat pages can show a blocking overlay for 5 minutes. After the cooldown ends, the meter resets locally.
 
 ## Privacy
 
-ThinkingMode only uses text you type into the side panel. The open-source build does not read AI conversations, scrape page content, automatically insert prompts, send data to a backend, or use analytics.
+ThinkingMode only uses text you type into the side panel and the AI usage modes you manually log. The open-source build does not read AI conversations, scrape page content, automatically insert prompts, send data to a backend, or use analytics.
 
 ## Setup
 
@@ -68,6 +81,9 @@ The Chrome extension build is emitted to `dist/`.
 - `Check mode` recommends the expected mode using deterministic keyword rules.
 - Manual mode switching regenerates the prompt.
 - Copy shows `Copied` feedback.
+- AI usage groups expand and collapse.
+- Logging AI usage updates the cognitive cost meter.
+- Filling the cognitive cost meter blocks supported chat pages for 5 minutes.
 - The side panel privacy note is visible.
 - The local event recorder remains a no-op and usage events contain metadata only.
 
@@ -88,9 +104,11 @@ src/
     sidepanel.html
     components/
       ModeForm.tsx
+      AiUsageLogger.tsx
       RecommendationCard.tsx
       PromptOutput.tsx
   shared/
+    aiUsageModes.ts
     modes.ts
     recommendationEngine.ts
     promptTemplates.ts

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import ModeForm from "./components/ModeForm";
 import PromptOutput from "./components/PromptOutput";
 import RecommendationCard from "./components/RecommendationCard";
+import AiUsageLogger from "./components/AiUsageLogger";
 import { THINKING_MODES, type ThinkingModeId } from "../shared/modes";
 import { getModeRecommendation } from "../shared/recommendationEngine";
 import { generatePrompt } from "../shared/promptTemplates";
@@ -158,6 +159,8 @@ export default function App() {
         disabled={!task.trim()}
         onCopied={handlePromptCopied}
       />
+
+      <AiUsageLogger />
 
       <section className="cta-panel" aria-label="Thinking Engineer Toolkit">
         <p>

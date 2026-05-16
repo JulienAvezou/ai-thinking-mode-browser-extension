@@ -1,4 +1,5 @@
 import { detectProvider } from "./detector";
+import { startCooldownBlocker } from "./cooldownBlocker";
 import { injectFloatingButton, removeFloatingButton } from "./floatingButton";
 import type { AiProvider, ExtensionMessage } from "../shared/messages";
 
@@ -65,4 +66,5 @@ function watchSpaNavigation(): void {
 }
 
 syncThinkingModeButton();
+startCooldownBlocker();
 watchSpaNavigation();

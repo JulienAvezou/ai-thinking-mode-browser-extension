@@ -40,6 +40,8 @@ const usageEvents = await loadJoinedModule([
   "src/shared/usageEvents.ts",
 ]);
 
+const aiUsageModes = await loadJoinedModule(["src/shared/aiUsageModes.ts"]);
+
 const recorder = await loadJoinedModule(["src/integrations/eventRecorder.ts"]);
 
 const recommendationCases = [
@@ -99,5 +101,32 @@ assert.doesNotMatch(JSON.stringify(event), new RegExp(rawTask));
 assert.doesNotMatch(JSON.stringify(event), new RegExp(rawPrompt));
 
 assert.equal(await recorder.recordEvent(event), undefined);
+
+const usageStart = 1_000;
+let aiUsageState = aiUsageModes.createInitialAiUsageState();
+aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "explaining_unfamiliar_code", usageStart);
+assert.equal(aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart), 8);
+assert.equal(aiUsageModes.getCognitiveCostPercent(aiUsageState, usageStart), 8);
+assert.equal(aiUsageModes.getCooldownRemainingMs(aiUsageState, usageStart), 0);
+
+aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "boilerplate_generation", usageStart + 1);
+assert.equal(aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart + 1), 32);
+
+aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "blindly_accepting_generated_solutions", usageStart + 2);
+aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "heavy_debugging_delegation", usageStart + 3);
+assert.equal(aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart + 3), aiUsageModes.COGNITIVE_COST_LIMIT);
+assert.equal(
+  aiUsageModes.getCooldownRemainingMs(aiUsageState, usageStart + 3),
+  aiUsageModes.COOLDOWN_DURATION_MS,
+);
+
+const blockedEntryCount = aiUsageState.entries.length;
+aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "drafting_documentation", usageStart + 4);
+assert.equal(aiUsageState.entries.length, blockedEntryCount);
+assert.equal(
+  aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart + 3 + aiUsageModes.COOLDOWN_DURATION_MS),
+  0,
+);
+assert.equal(aiUsageModes.formatCooldown(61_000), "1:01");
 
 console.log("All tests passed.");
