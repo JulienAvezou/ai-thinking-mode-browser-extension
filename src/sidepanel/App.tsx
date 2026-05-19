@@ -131,7 +131,7 @@ export default function App() {
     <main className="app-shell">
       <header className="app-header">
         <p className="eyebrow">Prompt studio</p>
-        <h1>ThinkingMode</h1>
+        <h1>ThinkMode</h1>
         <p className="lede">
           Choose the right thinking mode before prompting AI.
         </p>

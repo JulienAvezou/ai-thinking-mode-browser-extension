@@ -5,7 +5,7 @@ import type { AiProvider, ExtensionMessage } from "../shared/messages";
 
 let lastUrl = "";
 
-function syncThinkingModeButton(): void {
+function syncThinkModeButton(): void {
   const provider = detectProvider();
 
   if (!provider) {
@@ -37,7 +37,7 @@ function watchSpaNavigation(): void {
     }
 
     lastUrl = window.location.href;
-    syncThinkingModeButton();
+    syncThinkModeButton();
   };
 
   const observer = new MutationObserver(() => {
@@ -65,6 +65,6 @@ function watchSpaNavigation(): void {
   window.addEventListener("popstate", notifyIfUrlChanged);
 }
 
-syncThinkingModeButton();
+syncThinkModeButton();
 startCooldownBlocker();
 watchSpaNavigation();

@@ -108,6 +108,20 @@ aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "explaining_unfamiliar_
 assert.equal(aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart), 8);
 assert.equal(aiUsageModes.getCognitiveCostPercent(aiUsageState, usageStart), 8);
 assert.equal(aiUsageModes.getCooldownRemainingMs(aiUsageState, usageStart), 0);
+assert.equal(aiUsageModes.AI_USAGE_LOCAL_STORAGE_KEY, "thinkmode.aiUsage.v1");
+assert.equal(aiUsageModes.AI_USAGE_COOLDOWN_STORAGE_KEY, "thinkmode.aiUsage.cooldownUntil.v1");
+
+const legacyUsageState = aiUsageModes.readAiUsageState({
+  getItem(key) {
+    if (key === "thinkingmode.aiUsage.v1") {
+      return JSON.stringify(aiUsageState);
+    }
+
+    return null;
+  },
+});
+
+assert.equal(legacyUsageState.entries.length, 1);
 
 aiUsageState = aiUsageModes.logAiUsageMode(aiUsageState, "boilerplate_generation", usageStart + 1);
 assert.equal(aiUsageModes.getCurrentCognitiveCost(aiUsageState, usageStart + 1), 32);

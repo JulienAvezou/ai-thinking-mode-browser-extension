@@ -43,8 +43,9 @@ export interface AiUsageState {
   meterResetAt: number;
 }
 
-export const AI_USAGE_LOCAL_STORAGE_KEY = "thinkingmode.aiUsage.v1";
-export const AI_USAGE_COOLDOWN_STORAGE_KEY = "thinkingmode.aiUsage.cooldownUntil.v1";
+export const AI_USAGE_LOCAL_STORAGE_KEY = "thinkmode.aiUsage.v1";
+export const AI_USAGE_COOLDOWN_STORAGE_KEY = "thinkmode.aiUsage.cooldownUntil.v1";
+const LEGACY_AI_USAGE_LOCAL_STORAGE_KEY = "thinkingmode.aiUsage.v1";
 export const COGNITIVE_COST_LIMIT = 100;
 export const COOLDOWN_DURATION_MS = 5 * 60 * 1000;
 
@@ -197,7 +198,7 @@ export function createInitialAiUsageState(): AiUsageState {
 
 export function readAiUsageState(storage: Pick<Storage, "getItem">, now = Date.now()): AiUsageState {
   try {
-    const rawValue = storage.getItem(AI_USAGE_LOCAL_STORAGE_KEY);
+    const rawValue = storage.getItem(AI_USAGE_LOCAL_STORAGE_KEY) ?? storage.getItem(LEGACY_AI_USAGE_LOCAL_STORAGE_KEY);
 
     if (!rawValue) {
       return createInitialAiUsageState();

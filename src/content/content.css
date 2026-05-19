@@ -1,4 +1,4 @@
-#thinkingmode-floating-button {
+#thinkmode-floating-button {
   position: fixed;
   right: 18px;
   bottom: 18px;
@@ -24,16 +24,16 @@
   cursor: pointer;
 }
 
-#thinkingmode-floating-button:hover {
+#thinkmode-floating-button:hover {
   background: #0f172a;
 }
 
-#thinkingmode-floating-button:focus-visible {
+#thinkmode-floating-button:focus-visible {
   outline: 3px solid rgba(59, 130, 246, 0.45);
   outline-offset: 3px;
 }
 
-#thinkingmode-cooldown-overlay {
+#thinkmode-cooldown-overlay {
   position: fixed;
   inset: 0;
   z-index: 2147483646;
@@ -49,7 +49,7 @@
   pointer-events: auto;
 }
 
-.thinkingmode-cooldown-card {
+.thinkmode-cooldown-card {
   width: min(420px, 100%);
   border: 1px solid rgba(248, 250, 252, 0.6);
   border-radius: 8px;
@@ -58,7 +58,7 @@
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.34);
 }
 
-.thinkingmode-cooldown-card p {
+.thinkmode-cooldown-card p {
   margin: 0 0 8px;
   color: #991b1b;
   font-size: 12px;
@@ -67,7 +67,7 @@
   text-transform: uppercase;
 }
 
-.thinkingmode-cooldown-card h2 {
+.thinkmode-cooldown-card h2 {
   margin: 0 0 10px;
   color: #0f172a;
   font-size: 24px;
@@ -75,7 +75,7 @@
   letter-spacing: 0;
 }
 
-.thinkingmode-cooldown-card span {
+.thinkmode-cooldown-card span {
   display: block;
   color: #475569;
   font-size: 14px;

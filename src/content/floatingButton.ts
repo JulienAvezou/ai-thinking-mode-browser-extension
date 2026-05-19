@@ -1,6 +1,6 @@
 import type { AiProvider } from "../shared/messages";
 
-const BUTTON_ID = "thinkingmode-floating-button";
+const BUTTON_ID = "thinkmode-floating-button";
 
 export interface FloatingButtonOptions {
   provider: AiProvider;
@@ -18,9 +18,9 @@ export function injectFloatingButton({ provider, onClick }: FloatingButtonOption
   const button = document.createElement("button");
   button.id = BUTTON_ID;
   button.type = "button";
-  button.textContent = "ThinkingMode";
+  button.textContent = "ThinkMode";
   button.dataset.provider = provider;
-  button.setAttribute("aria-label", "Open ThinkingMode side panel");
+  button.setAttribute("aria-label", "Open ThinkMode side panel");
   button.addEventListener("click", () => onClick(provider));
 
   document.documentElement.appendChild(button);

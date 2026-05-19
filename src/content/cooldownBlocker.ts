@@ -1,5 +1,6 @@
-const AI_USAGE_COOLDOWN_STORAGE_KEY = "thinkingmode.aiUsage.cooldownUntil.v1";
-const OVERLAY_ID = "thinkingmode-cooldown-overlay";
+const AI_USAGE_COOLDOWN_STORAGE_KEY = "thinkmode.aiUsage.cooldownUntil.v1";
+const LEGACY_AI_USAGE_COOLDOWN_STORAGE_KEY = "thinkingmode.aiUsage.cooldownUntil.v1";
+const OVERLAY_ID = "thinkmode-cooldown-overlay";
 
 let cooldownUntil: number | null = null;
 let renderIntervalId: number | null = null;
@@ -10,9 +11,10 @@ export function startCooldownBlocker(): void {
   }
 
   chrome.storage.local
-    .get(AI_USAGE_COOLDOWN_STORAGE_KEY)
+    .get([AI_USAGE_COOLDOWN_STORAGE_KEY, LEGACY_AI_USAGE_COOLDOWN_STORAGE_KEY])
     .then((storedValues) => {
-      const storedCooldownUntil = storedValues[AI_USAGE_COOLDOWN_STORAGE_KEY];
+      const storedCooldownUntil =
+        storedValues[AI_USAGE_COOLDOWN_STORAGE_KEY] ?? storedValues[LEGACY_AI_USAGE_COOLDOWN_STORAGE_KEY];
       cooldownUntil = typeof storedCooldownUntil === "number" ? storedCooldownUntil : null;
       renderCooldownOverlay();
     })
@@ -21,11 +23,15 @@ export function startCooldownBlocker(): void {
     });
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName !== "local" || !changes[AI_USAGE_COOLDOWN_STORAGE_KEY]) {
+    if (
+      areaName !== "local" ||
+      (!changes[AI_USAGE_COOLDOWN_STORAGE_KEY] && !changes[LEGACY_AI_USAGE_COOLDOWN_STORAGE_KEY])
+    ) {
       return;
     }
 
-    const nextCooldownUntil = changes[AI_USAGE_COOLDOWN_STORAGE_KEY].newValue;
+    const nextCooldownUntil =
+      changes[AI_USAGE_COOLDOWN_STORAGE_KEY]?.newValue ?? changes[LEGACY_AI_USAGE_COOLDOWN_STORAGE_KEY]?.newValue;
     cooldownUntil = typeof nextCooldownUntil === "number" ? nextCooldownUntil : null;
     renderCooldownOverlay();
   });
@@ -62,10 +68,10 @@ function getOrCreateOverlay(): HTMLElement {
   overlay.id = OVERLAY_ID;
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
-  overlay.setAttribute("aria-label", "ThinkingMode pause");
+  overlay.setAttribute("aria-label", "ThinkMode pause");
   overlay.innerHTML = `
-    <div class="thinkingmode-cooldown-card">
-      <p>ThinkingMode pause</p>
+    <div class="thinkmode-cooldown-card">
+      <p>ThinkMode pause</p>
       <h2>Chat is blocked for <strong>5:00</strong></h2>
       <span>The cognitive cost meter filled up. Take a short reset before prompting again.</span>
     </div>
